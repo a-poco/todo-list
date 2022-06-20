@@ -1,19 +1,20 @@
 import React from "react";
-import "./App.css";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Todos from './components/todos/Todos';
 
 function App() {
-  const [data, setData] = React.useState(null);
+  // const [data, setData] = React.useState(null);
 
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
+  // React.useEffect(() => {
+  //   fetch("/api")
+  //     .then((res) => res.json())
+  //     .then((data) => setData(data.message));
+  // }, []);
 
   return (
-    <div className="App">
-        <p>{!data ? "Loading..." : data}</p>
-    </div>
+    <React.Fragment>
+       <Todos />
+  </React.Fragment>
   );
 }
 
