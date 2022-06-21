@@ -13,7 +13,6 @@ const AddTodo: React.FC = () => {
         event.preventDefault()
         const formData = Object.fromEntries(new FormData(event.target)) as unknown as Todo;
         setTodoToBeAdded(formData)
-        console.log(formData, "here form data tortuga");
         
       }
 
@@ -27,25 +26,18 @@ const AddTodo: React.FC = () => {
           body: JSON.stringify(todoToBeAdded)
         };
 
-        console.log(requestOptions, "post method!!!!!!");
-        
-        
         fetch('/api/todos', requestOptions)
           .then(response => handleSuccessfulInsertion(response))
           .catch(err => console.error("Something went wrong while adding a todo! ", err))
       }, [todoToBeAdded]);
-      console.log(todoToBeAdded,  "from fetch")
     
       const handleSuccessfulInsertion = (response: any) => {
-        console.log(response, "here from handleSuccessfulInsertion", response.status);
     
         if (response.status !== 202) {
           throw new Error("Not accepted by the server!")
         }
     
         alert(`todo successfully added!`)
-        console.log("tesssssssssst");
-        
       }
 
   return (
