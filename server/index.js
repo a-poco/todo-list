@@ -3,6 +3,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const path = require('path');
 const sqlite3 =require('sqlite3').verbose();
+const bodyParser = require('body-parser')
 
 const db = new sqlite3.Database('./server/todos.db', sqlite3.OPEN_READWRITE, (err) => {
   if (err) return console.err(`Cannot start database ${err.message}`)
@@ -44,6 +45,22 @@ app.get("/api/todos", async (req, res) => {
     if (err) return res.status(500).json("error");
     return res.status(200).json(rows);
   })
+});
+
+app.post("/api/todos", bodyParser.json(), async (req, res) => {
+  const request = await req.body
+  if (!request ||
+    !request.tittle) {
+    return res.status(400).json({ "error": "Cannot be null" });
+  }
+  const sql = `INSERT INTO todos(tittle,description) VALUES (?,?)`;
+  db.run(sql, [
+    request.tittle,
+    request.description,
+  ], (err) => {
+    if (err) return res.status(500).json({ "error": err.message });
+  })
+  return res.status(202).send();
 });
 
 // All other GET requests not handled before will return our React app
