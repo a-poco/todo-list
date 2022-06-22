@@ -1,5 +1,5 @@
 import React from 'react'
-import { Todo, DeletTodo } from '../../types'
+import { Todo } from '../../types'
 
 interface TodoDetailsProps {
     todo: Todo;
