@@ -2,7 +2,7 @@ import React from 'react'
 import { Todo } from '../../types'
 
 const initialState = {
-    tittle: null,
+    title: null,
     description: null,
   } as unknown as Todo
 
@@ -17,7 +17,7 @@ const AddTodo: React.FC = () => {
       }
 
       React.useEffect(() => {
-        if (todoToBeAdded === initialState || !todoToBeAdded.tittle) {
+        if (todoToBeAdded === initialState || !todoToBeAdded.title) {
           return
         }
         const requestOptions = {
@@ -42,7 +42,7 @@ const AddTodo: React.FC = () => {
 
   return (
     <form className="todoCard" onSubmit={handleSubmit}>
-    <input className='todoCard__input' type="text" placeholder="tittle" name="tittle"></input>
+    <input className='todoCard__input' type="text" placeholder="title" name="title"></input>
     <input className='todoCard__input' type="text" placeholder="desctiption" name="description"></input>
     <div className='todoCard__buttons'>
       <button className='todoCard__buttons-add' type="submit">Add</button>

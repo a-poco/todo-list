@@ -20,7 +20,7 @@ const Todos = () => {
   return (
     <div className='todos'>
     {todos.map((todo: Todo) => {
-     return <TodoDetails key={todo.id} todo={todo} />
+     return <TodoDetails key={todo.todoId} todo={todo} />
     })}
   </div>
   )

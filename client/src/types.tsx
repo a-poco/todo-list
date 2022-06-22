@@ -1,6 +1,6 @@
 type Todo = {
-    id?: string,
-    tittle: string,
+    todoId?: string,
+    title: string,
     description: string
 };
 export type {

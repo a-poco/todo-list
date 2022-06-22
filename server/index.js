@@ -10,13 +10,36 @@ const db = new sqlite3.Database('./server/todos.db', sqlite3.OPEN_READWRITE, (er
 })
 
 
-//Create table
-// let sql = `CREATE TABLE todos(id INTEGER PRIMARY KEY, tittle,description)`
-// db.run(sql)
+// let sql = `CREATE TABLE users (
+// 	userId integer PRIMARY KEY,
+//   userName text NOT NULL)`;
+//   db.run(sql)
+
+// let sql = `CREATE TABLE todoLists (
+//   todoListId INTEGER PRIMARY KEY,
+//   TodoListName TEXT   NOT NULL,
+//   userId     INTEGER NOT NULL,
+//   FOREIGN KEY (userId)
+//      REFERENCES users (userId))`;
+//      db.run(sql);
+
+// let sql = `CREATE TABLE todos (
+//   todoId INTEGER PRIMARY KEY,
+//   title TEXT   NOT NULL,
+//   description TEXT,
+//   todoListId   INTEGER NOT NULL,
+//   FOREIGN KEY (todoListId)
+//      REFERENCES todoLists (todoListId))`;
+//      db.run(sql);
+
+
+// Drop table
+// db.run("DROP TABLE users")
+
 
 //Insert data into table
-// let sql = `INSERT INTO todos(tittle,description) VALUES (?,?)`
-// db.run(sql, ["swimn", "Go out to the beach for a nice swimn"], (err) => {
+// let sql = `INSERT INTO todos(title, description, todoListId ) VALUES (?, ?, ?)`
+// db.run(sql, ["", "Ajax, toilet paper, soap", 1], (err) => {
 //   if (err) return console.err(`Cannot start database ${err.message}`)
 // })
 
@@ -34,10 +57,14 @@ const db = new sqlite3.Database('./server/todos.db', sqlite3.OPEN_READWRITE, (er
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-// Handle GET requests to /api route
-// app.get("/api", (req, res) => {
-//   res.json({ message: "Hello from server!" });
-// });
+
+app.get("/api/todo-list", async (req, res) => {
+  const sql = `SELECT * FROM todoLists`;
+  db.all(sql, [], (err, rows) => {
+    if (err) return res.status(500).json("error");
+    return res.status(200).json(rows);
+  })
+});
 
 app.get("/api/todos", async (req, res) => {
   const sql = `SELECT * FROM todos`;
@@ -50,12 +77,12 @@ app.get("/api/todos", async (req, res) => {
 app.post("/api/todos", bodyParser.json(), async (req, res) => {
   const request = await req.body
   if (!request ||
-    !request.tittle) {
+    !request.title) {
     return res.status(400).json({ "error": "Cannot be null" });
   }
-  const sql = `INSERT INTO todos(tittle,description) VALUES (?,?)`;
+  const sql = `INSERT INTO todos(title,description) VALUES (?,?)`;
   db.run(sql, [
-    request.tittle,
+    request.title,
     request.description,
   ], (err) => {
     if (err) return res.status(500).json({ "error": err.message });
