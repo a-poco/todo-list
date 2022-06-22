@@ -63,6 +63,15 @@ app.post("/api/todos", bodyParser.json(), async (req, res) => {
   return res.status(202).send();
 });
 
+
+app.delete("/api/todos/:id", async (req, res) => {
+  const sql = `DELETE FROM todos WHERE id = (?)`;
+  db.run(sql, [req.params.id], (err) => {
+    if (err) return res.status(500).json({ "error": err.message });
+  })
+  return res.status(202).send();
+});
+
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));

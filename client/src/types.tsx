@@ -4,7 +4,10 @@ type Todo = {
     description: string
 };
 
+type DeletTodo = (id: string) => void;
+
 
 export type {
-    Todo
+    Todo,
+    DeletTodo
 }

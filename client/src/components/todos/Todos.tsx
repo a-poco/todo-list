@@ -1,5 +1,6 @@
 import React from 'react'
-import { Todo } from '../../types'
+import { Todo, DeletTodo } from '../../types'
+import TodoDetails from '../todoDetails/TodoDetails'
 
 const initialTodos: Array<Todo> = []
 
@@ -15,14 +16,12 @@ const Todos = () => {
           .catch(err => alert("Something went wrong"))
     
       }, []);
+
   return (
     <div className='todos'>
-    {todos.map((todo: Todo) =>
-      <div key={todo.id}>
-          <h1 className='todo'>{todo.tittle} </h1>
-          <p>{todo.description}</p>
-      </div>
-    )}.
+    {todos.map((todo: Todo) => {
+     return <TodoDetails key={todo.id} todo={todo} />
+    })}
   </div>
   )
 }
