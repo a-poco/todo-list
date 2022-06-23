@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import AddTodoList from '../../components/addTodoList/AddTodoList';
 import TodoListDetails from '../../components/todoListDetails/TodoListDetails';
 import { TodosList } from '../../types'
@@ -11,8 +11,10 @@ const initialTodos: Array<TodosList> = []
 
 const TodoList = () => {
     const [todoLists, setTodoLists] = React.useState(initialTodos);
+    const userId = useParams().id;
+
     React.useEffect(() => {
-        fetch(`/api/user/1`)
+        fetch(`/api/user/${userId}`)
           .then(res => res.json())
           .then(todoLists => {
             setTodoLists(todoLists)

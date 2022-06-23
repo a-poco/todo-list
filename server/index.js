@@ -2,7 +2,7 @@ const express = require("express");
 const PORT = process.env.PORT || 3001;
 const app = express();
 const path = require('path');
-const sqlite3 =require('sqlite3').verbose();
+const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser')
 
 const db = new sqlite3.Database('./server/todos.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -75,6 +75,27 @@ app.get("/api/todos", async (req, res) => {
   })
 });
 
+
+const getuserId = async (userName) => {
+  const sql_get = `SELECT * FROM users where userName = '${userName}'`;
+
+  const getUserRows = () => (new Promise((resolve, reject) => {
+    db.serialize(() => {
+      db.all(sql_get, [], (err, rows) => {
+        if (err)
+          reject(err)
+        resolve(rows)
+      })
+    });
+  }))
+  
+  return getUserRows().then(result => {
+    if (result.length > 0) {
+      return result[0].userId
+    }
+  })
+}
+
 app.post("/api/users", bodyParser.json(), async (req, res) => {
   const request = await req.body
   console.log(request);
@@ -82,13 +103,20 @@ app.post("/api/users", bodyParser.json(), async (req, res) => {
     !request.userName) {
     return res.status(400).json({ "error": "Cannot be null" });
   }
-  const sql = `INSERT INTO users(userName) VALUES (?)`;
-  db.run(sql, [
-    request.userName,
-  ], (err) => {
-    if (err) return res.status(500).json({ "error": err.message });
-  })
-  return res.status(202).send();
+
+  let userId = await getuserId(request.userName);
+
+  if (!userId) {
+    const sql = `INSERT INTO users(userName) VALUES (?)`;
+    db.run(sql, [
+      request.userName,
+    ], (err) => {
+      if (err) return res.status(500).json({ "error": err.message });
+    })
+  }
+
+  userId = await getuserId(request.userName)
+  return res.status(202).json({ "userId": userId });
 });
 
 

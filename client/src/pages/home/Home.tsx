@@ -1,5 +1,6 @@
 import React from 'react'
 import { User } from '../../types';
+import { useNavigate } from "react-router-dom";
 import './home.css'
 
 const initialState = {
@@ -8,6 +9,7 @@ const initialState = {
 
 const Home = () => {
   const [userToBeAdded, setUserToBeAdded] = React.useState(initialState);
+  let navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement> & { target: HTMLFormElement }) => {
     event.preventDefault()
@@ -26,17 +28,22 @@ const Home = () => {
     };
 
     fetch('/api/users', requestOptions)
-      .then(response => handleSuccessfulInsertion(response))
-      .catch(err => console.error("Something went wrong while adding a todo! ", err))
+      .then()
+      .then(response => {
+        if (response.status === 202) {
+          response.json().then(json => {
+            navigate({
+              pathname: `/user/${json.userId}`
+            })
+          });
+        }
+        else {
+          throw new Error("Not accepted")
+        }
+      }).catch(err => console.error("Something went wrong while adding a todo! ", err))
   }, [userToBeAdded]);
- 
 
-  const handleSuccessfulInsertion = (response: any) => {
 
-    if (response.status !== 202) {
-      throw new Error("Not accepted by the server!")
-    }
-  }
 
   return (
     <div>

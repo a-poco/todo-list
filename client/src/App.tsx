@@ -13,9 +13,9 @@ function App() {
         <Navbar />
         <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/todos' element={ <TodoList/>} >
-            <Route index element={<Todos />} />
-            <Route path=':id' element={<Todos />} />
+        <Route path='/user' element={ <TodoList/>} >
+            <Route index element={<TodoList />} />
+            <Route path=':id' element={<TodoList />} />
           </Route>
        </Routes>
        </BrowserRouter>
