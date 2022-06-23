@@ -1,5 +1,6 @@
 import React from 'react'
 import { Todo } from '../../types'
+import AddTodo from '../addTodo/AddTodo'
 import TodoDetails from '../todoDetails/TodoDetails'
 
 const initialTodos: Array<Todo> = []
@@ -19,6 +20,7 @@ const Todos = () => {
 
   return (
     <div className='todos'>
+      <AddTodo/>
     {todos.map((todo: Todo) => {
      return <TodoDetails key={todo.todoId} todo={todo} />
     })}

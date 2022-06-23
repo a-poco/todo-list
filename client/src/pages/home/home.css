@@ -1,0 +1,25 @@
+.welcome-title{
+    text-align: center;
+    margin-top: 1em;
+}
+
+.home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 3em;
+}
+
+.home__user-name{
+    padding: .3em 6em;
+    text-align: center;
+}
+
+.home__user-btns{
+    margin-top: 1em;
+}
+
+.home__user-btn{
+    padding: .2em 4em;
+}

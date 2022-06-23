@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { Todo } from '../../types'
 
 
@@ -24,6 +25,9 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({todo}) =>{
     <div>
         <h1>{todo.title}</h1>
         <p>{todo.description}</p>
+        <Link to={'/'}>
+          <button className='todo-detail__btns-back'>Go back to</button>
+        </Link>
         <button className='todo-detail__btns-delete' onClick={handleDelete}>Delete</button>
     </div>
   )

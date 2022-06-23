@@ -1,0 +1,15 @@
+.header{
+    text-align: center;
+}
+
+.todos-list{
+margin-right: .3em;
+}
+
+.todos-list-card{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 1em 0em;
+  font-size: 28px;
+}

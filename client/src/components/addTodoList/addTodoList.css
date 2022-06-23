@@ -1,0 +1,17 @@
+.todoListCard{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.todoListCard__input{
+    padding: .4em 6em;
+    text-align: center;
+}
+
+
+.todoListCard__add{
+    padding: .4em 3em;
+    text-align: center;
+    margin-left: .5em;
+}

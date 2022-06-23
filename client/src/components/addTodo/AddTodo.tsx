@@ -13,7 +13,6 @@ const AddTodo: React.FC = () => {
         event.preventDefault()
         const formData = Object.fromEntries(new FormData(event.target)) as unknown as Todo;
         setTodoToBeAdded(formData)
-        
       }
 
       React.useEffect(() => {

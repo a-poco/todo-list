@@ -58,8 +58,9 @@ const db = new sqlite3.Database('./server/todos.db', sqlite3.OPEN_READWRITE, (er
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 
-app.get("/api/todo-list", async (req, res) => {
-  const sql = `SELECT * FROM todoLists`;
+app.get("/api/user/:id", async (req, res) => {
+  const id = req.params.id;
+  const sql = `SELECT * FROM todoLists join todos on todos.todoListId = todoLists.todoListId WHERE userId = ${id}`;
   db.all(sql, [], (err, rows) => {
     if (err) return res.status(500).json("error");
     return res.status(200).json(rows);
@@ -73,6 +74,24 @@ app.get("/api/todos", async (req, res) => {
     return res.status(200).json(rows);
   })
 });
+
+app.post("/api/users", bodyParser.json(), async (req, res) => {
+  const request = await req.body
+  console.log(request);
+  if (!request ||
+    !request.userName) {
+    return res.status(400).json({ "error": "Cannot be null" });
+  }
+  const sql = `INSERT INTO users(userName) VALUES (?)`;
+  db.run(sql, [
+    request.userName,
+  ], (err) => {
+    if (err) return res.status(500).json({ "error": err.message });
+  })
+  return res.status(202).send();
+});
+
+
 
 app.post("/api/todos", bodyParser.json(), async (req, res) => {
   const request = await req.body
