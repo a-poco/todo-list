@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import { Todo } from '../../types'
 import './todoDetails.css'
 
@@ -37,9 +36,6 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({ todo }) => {
       <div className='todo'>
         <h1 className='todo-title'>{todo.title}</h1>
         <p className='todo-description'>{todo.description}</p>
-        <Link to={'/'}>
-          <button className='todo__btn-back'>Go back to</button>
-        </Link>
         <button className='todo__btn-delete' onClick={handleToggle}>Mark as complete</button>
       </div>
     </label>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { Todo } from '../../types'
 import AddTodo from '../addTodo/AddTodo'
 import TodoDetails from '../todoDetails/TodoDetails'
@@ -23,10 +23,13 @@ const Todos = () => {
 
   return (
     <div className='todos'>
+      <Link to={'/'}>
+            <button className='todo__btn-back'>Go back to</button>
+    </Link>
     {todos.map((todo: Todo) => {
       return <TodoDetails key={todo.todoId} todo={todo} />
     })}
-    <AddTodo listId={listId}/>
+      <AddTodo listId={listId}/>
   </div>
   )
 }
