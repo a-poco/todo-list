@@ -39,7 +39,7 @@ const db = new sqlite3.Database('./server/todos.db', sqlite3.OPEN_READWRITE, (er
 
 //Insert data into table
 // let sql = `INSERT INTO todos(title, description, todoListId ) VALUES (?, ?, ?)`
-// db.run(sql, ["", "Ajax, toilet paper, soap", 1], (err) => {
+// db.run(sql, ["dinner", "Ajax, toilet paper, soap", 4], (err) => {
 //   if (err) return console.err(`Cannot start database ${err.message}`)
 // })
 
@@ -52,19 +52,32 @@ const db = new sqlite3.Database('./server/todos.db', sqlite3.OPEN_READWRITE, (er
 //   });
 // })
 
-
-
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-
-app.get("/api/user/:id", async (req, res) => {
+app.get("/api/users/:id/todo-list", async (req, res) => {
   const id = req.params.id;
-  const sql = `SELECT * FROM todoLists join todos on todos.todoListId = todoLists.todoListId WHERE userId = ${id}`;
+  const sql = `SELECT * FROM todoLists WHERE userId = ${id}`;
   db.all(sql, [], (err, rows) => {
     if (err) return res.status(500).json("error");
     return res.status(200).json(rows);
   })
+});
+
+app.post("/api/users/:id/todo-list", bodyParser.json(), async (req, res) => {
+  const request = await req.body
+  console.log(request, req.params.id);
+  if (!request.TodoListName || !req.params.id) {
+    return res.status(400).json({ "error": "Cannot be null" });
+  }
+  const sql = `INSERT INTO todoLists(TodoListName,userId) VALUES (?,?)`;
+  db.run(sql, [
+    request.TodoListName,
+    req.params.id,
+  ], (err) => {
+    if (err) return res.status(500).json({ "error": err.message });
+  })
+  return res.status(202).send();
 });
 
 app.get("/api/todos", async (req, res) => {
@@ -74,7 +87,6 @@ app.get("/api/todos", async (req, res) => {
     return res.status(200).json(rows);
   })
 });
-
 
 const getuserId = async (userName) => {
   const sql_get = `SELECT * FROM users where userName = '${userName}'`;
@@ -118,8 +130,6 @@ app.post("/api/users", bodyParser.json(), async (req, res) => {
   userId = await getuserId(request.userName)
   return res.status(202).json({ "userId": userId });
 });
-
-
 
 app.post("/api/todos", bodyParser.json(), async (req, res) => {
   const request = await req.body

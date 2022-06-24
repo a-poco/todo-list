@@ -8,18 +8,22 @@ const initialState = {
     userId: null,
   } as unknown as TodosList
 
-const AddTodoList = () => {
+  interface AddTodoListProps {
+    userId?: string;
+  }
+
+const AddTodoList:  React.FC<AddTodoListProps> = ({userId}) => {
     const [todoListToBeAdded, setTodoListToBeAdded] = React.useState(initialState);
    
     const handleSubmit = (event: React.FormEvent<HTMLFormElement> & { target: HTMLFormElement }) => {
         event.preventDefault()
         const formData = Object.fromEntries(new FormData(event.target)) as unknown as TodosList;
         setTodoListToBeAdded(formData)
-        
       }
 
       React.useEffect(() => {
-        if (todoListToBeAdded === initialState || !todoListToBeAdded.TodoListName) {
+        if (!todoListToBeAdded.TodoListName || !userId) {
+          console.log("asfas",userId)
           return
         }
         const requestOptions = {
@@ -28,23 +32,23 @@ const AddTodoList = () => {
           body: JSON.stringify(todoListToBeAdded)
         };
 
-        fetch('/api/todos-list', requestOptions)
+        console.log(userId)
+        fetch(`/api/users/${userId}/todo-list`, requestOptions)
           .then(response => handleSuccessfulInsertion(response))
           .catch(err => console.error("Something went wrong while adding a todo! ", err))
       }, [todoListToBeAdded]);
     
       const handleSuccessfulInsertion = (response: any) => {
-    
         if (response.status !== 202) {
           throw new Error("Not accepted by the server!")
         }
-    
         alert(`todo successfully added!`)
+        setTodoListToBeAdded(initialState)
       }
 
   return (
     <form className="todoListCard" onSubmit={handleSubmit}>
-    <input className='todoListCard__input' type="text" placeholder="new category" name="todo list"></input>
+    <input className='todoListCard__input' type="text" placeholder="new category" name="TodoListName"></input>
       <button className='todoListCard__add' type="submit">Add</button>
   </form>
   )

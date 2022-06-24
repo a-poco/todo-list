@@ -14,7 +14,7 @@ const TodoList = () => {
     const userId = useParams().id;
 
     React.useEffect(() => {
-        fetch(`/api/user/${userId}`)
+        fetch(`/api/users/${userId}/todo-list`)
           .then(res => res.json())
           .then(todoLists => {
             setTodoLists(todoLists)
@@ -26,10 +26,10 @@ const TodoList = () => {
   return (
     <div>
       <h1 className='header'>Categories</h1>
-      {todoLists.map((todo: TodosList) => {
-        return<TodoListDetails key={todo.todoListId} todoList={todo} />
+      {todoLists.map((todoList: TodosList) => {
+        return<TodoListDetails key={todoList.todoListId} userId = {userId} todoList={todoList} />
     })}
-    <AddTodoList/>
+    <AddTodoList userId={userId}/>
     </div>
   )
 }

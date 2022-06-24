@@ -4,10 +4,11 @@ import { TodosList } from '../../types';
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 interface TodoListDetailsProps {
+        userId?: string,
         todoList: TodosList;
     }
     
-    const TodoListDetails: React.FC<TodoListDetailsProps> = ({todoList}) =>{
+    const TodoListDetails: React.FC<TodoListDetailsProps> = ({userId,todoList}) =>{
     
       const handleDelete = () => {
         fetch(`/api/todos/${todoList.todoListId}`, {method: 'DELETE'})
@@ -23,7 +24,7 @@ interface TodoListDetailsProps {
     
   return (
     <div className='todos-list-card'>
-    <Link to={`/todos/${todoList.todoListId}`}>
+    <Link to={`todo-lists/${todoList.todoListId}`}>
       <p className='todos-list'>{todoList.TodoListName.charAt(0).toUpperCase() + todoList.TodoListName.slice(1)}</p>
     </Link>
     <button className='todo-detail__btns-delete' onClick={handleDelete}><RiDeleteBin6Line/></button>

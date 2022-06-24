@@ -33,7 +33,7 @@ const Home = () => {
         if (response.status === 202) {
           response.json().then(json => {
             navigate({
-              pathname: `/user/${json.userId}`
+              pathname: `/users/${json.userId}`
             })
           });
         }
