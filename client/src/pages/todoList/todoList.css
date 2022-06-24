@@ -1,5 +1,6 @@
 .header{
-    text-align: center;
+  margin-top: .5em;
+  text-align: center;
 }
 
 .todos-list{
@@ -13,3 +14,4 @@ margin-right: .3em;
   margin: 1em 0em;
   font-size: 28px;
 }
+

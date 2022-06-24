@@ -23,7 +23,6 @@ const AddTodoList:  React.FC<AddTodoListProps> = ({userId}) => {
 
       React.useEffect(() => {
         if (!todoListToBeAdded.TodoListName || !userId) {
-          console.log("asfas",userId)
           return
         }
         const requestOptions = {
@@ -32,7 +31,6 @@ const AddTodoList:  React.FC<AddTodoListProps> = ({userId}) => {
           body: JSON.stringify(todoListToBeAdded)
         };
 
-        console.log(userId)
         fetch(`/api/users/${userId}/todo-list`, requestOptions)
           .then(response => handleSuccessfulInsertion(response))
           .catch(err => console.error("Something went wrong while adding a todo! ", err))
@@ -43,7 +41,7 @@ const AddTodoList:  React.FC<AddTodoListProps> = ({userId}) => {
           throw new Error("Not accepted by the server!")
         }
         alert(`todo successfully added!`)
-        setTodoListToBeAdded(initialState)
+        window.location.reload();
       }
 
   return (

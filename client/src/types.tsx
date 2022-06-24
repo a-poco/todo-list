@@ -1,7 +1,9 @@
 type Todo = {
     todoId?: string,
     title: string,
-    description: string
+    description: string,
+    complete: Boolean,
+    todoListId: string
 };
 
 type TodosList = {

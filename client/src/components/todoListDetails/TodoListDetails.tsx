@@ -24,10 +24,10 @@ interface TodoListDetailsProps {
     
   return (
     <div className='todos-list-card'>
-    <Link to={`todo-lists/${todoList.todoListId}`}>
+    <Link to={`todo-lists/${todoList.todoListId}`} style={{ textDecoration: 'none', color: 'black'}}>
       <p className='todos-list'>{todoList.TodoListName.charAt(0).toUpperCase() + todoList.TodoListName.slice(1)}</p>
     </Link>
-    <button className='todo-detail__btns-delete' onClick={handleDelete}><RiDeleteBin6Line/></button>
+    <p className='todo-detail__btns-delete' onClick={handleDelete}><RiDeleteBin6Line/></p>
   </div>
   )
 }

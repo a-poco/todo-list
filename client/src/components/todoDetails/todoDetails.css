@@ -1,0 +1,31 @@
+.todo{
+    margin: 2em 4em;
+    padding: .5em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-style: hidden;
+    border-radius: 8px;
+}
+
+.todo-title{
+   font-size: 29px;
+}
+
+.todo-description{
+    font-size: 22px;
+    margin-bottom: 2em;
+    
+}
+
+.todo__btn-back{
+    margin-right: .5em;
+    padding: .2em 1em;
+    
+}
+
+.todo__btn-delete{
+    padding: .2em 1em;
+}
+
+.todo--completed{
+    text-decoration: line-through;
+}

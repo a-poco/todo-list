@@ -1,36 +1,48 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { Todo } from '../../types'
+import './todoDetails.css'
 
 
 interface TodoDetailsProps {
-    todo: Todo;
+  todo: Todo;
 }
 
-const TodoDetails: React.FC<TodoDetailsProps> = ({todo}) =>{
+const TodoDetails: React.FC<TodoDetailsProps> = ({ todo }) => {
+  const handleToggle = () => {
+    const request = {
+      complete: !todo.complete
+    }
 
-  const handleDelete = () => {
-    fetch(`/api/todos/${todo.todoId}`, {method: 'DELETE'})
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request)
+    };
+
+
+    fetch(`/api/todos/${todo.todoId}`, requestOptions)
       .then(res => {
-        if (res.status === 202){
-          alert("Successfully deleted!")
-          
+        if (res.status === 202) {
         }
       }).catch(
-        err => alert("Something went wrong!")
+        err => console.error("Something went wrong!")
       )
+
+      window.location.reload();
   }
 
   return (
-    <div>
-      handleSuccessfulInsertion
-        <h1>{todo.title}</h1>
-        <p>{todo.description}</p>
+    <label className={todo.complete ? "todo--completed" : undefined}>
+      <div className='todo'>
+        <h1 className='todo-title'>{todo.title}</h1>
+        <p className='todo-description'>{todo.description}</p>
         <Link to={'/'}>
-          <button className='todo-detail__btns-back'>Go back to</button>
+          <button className='todo__btn-back'>Go back to</button>
         </Link>
-        <button className='todo-detail__btns-delete' onClick={handleDelete}>Delete</button>
-    </div>
+        <button className='todo__btn-delete' onClick={handleToggle}>Mark as complete</button>
+      </div>
+    </label>
   )
 }
 
